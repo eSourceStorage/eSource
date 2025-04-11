@@ -1,6 +1,6 @@
 
 local blacklist = {
-local Blacklisted = {
+Blacklisted = {
 	Groups = { -- ok
 		{
 			GroupId = 35670675;
