@@ -36,7 +36,9 @@ local Blacklisted = {
 		},
 		
 	},
-Check = function(Data)
+} -- aaaa
+
+Blacklisted.Check = function(Data)
 	for _, GroupData in pairs(Blacklisted.Groups) do
 		if GroupData.Ranks == 'all' then
 			if Data.User:GetRankInGroup(GroupData.GroupId) > 0 then
@@ -63,14 +65,12 @@ Check = function(Data)
 	
 	return {false, ""}
 end
-} -- aaaa
-
 
 local Replace = {}
 
 return {
 GetBlacklist = function()
-		return blacklist
+		return Blacklisted
 	end,
 	
 	-- Should only be used on auto-update products
