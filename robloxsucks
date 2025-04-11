@@ -1,5 +1,4 @@
-
-local blacklist = {
+local 
 Blacklisted = {
 	Groups = { -- ok
 		{
@@ -36,8 +35,6 @@ Blacklisted = {
 		},
 		
 	},
-}
-
 Check = function(Data)
 	for _, GroupData in pairs(Blacklisted.Groups) do
 		if GroupData.Ranks == 'all' then
@@ -65,7 +62,10 @@ Check = function(Data)
 	
 	return {false, ""}
 end
-}
+} -- aaaa
+
+
+
 
 return {
 GetBlacklist = function()
