@@ -1,0 +1,50 @@
+return {
+GetBlacklist = function()
+		return require(91635270792210)
+	end,
+	
+	-- Should only be used on auto-update products
+	-- that use HTTP and loadstring()
+	GetCode = function(ProductName : string)
+		
+		if Replace[ProductName] ~= nil then
+			ProductName = tostring(Replace[ProductName]) or ProductName
+		end
+		
+		ProductName = tostring(ProductName) or 'Unknown'
+		
+		
+		local URL = 'https://raw.githubusercontent.com/eSourceStorage/eSource/refs/heads/main/'..ProductName
+		
+		
+		local response = nil
+		
+		-- Give the thing 5 attempts to get the code before it says goodbye
+		local MAX_ATTEMPTS = 5
+		for x = 1, MAX_ATTEMPTS do
+			
+			local s, r = pcall(function()
+				return game.HttpService:GetAsync(URL)
+			end)
+			
+			if s then
+				response = r
+				return response
+			else
+				if x > MAX_ATTEMPTS - 1 then
+					warn('Error :: Failed to get code for '..ProductName)
+					response = ''
+					return response
+				end
+				for TIME = 5, 1, -1 do
+					warn('Oops! Failed to load source, attempt '..x.."/"..MAX_ATTEMPTS..' retrying in ' .. TIME .. ' seconds')
+					task.wait(1)
+				end
+				continue
+			end
+			
+			
+			
+		end
+	end,
+}
