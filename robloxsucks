@@ -1,6 +1,75 @@
+
+local blacklist = {
+local Blacklisted = {
+	Groups = { -- ok
+		{
+			GroupId = 35670675;
+			Ranks = 'all';
+			Reason = 'being in shawns group (hes blacklisted)';
+		},
+		{
+			
+			GroupId = 17166497;
+			Ranks = 'all';
+			Reason = 'being in shawns group (hes blacklisted)';
+		},
+		{
+
+			GroupId = 14474923;
+			Ranks = 'all';
+			Reason = 'Being in RCA Group (Blacklisted + Stealing products)';
+		},
+	},
+	Users = {
+		--362649027
+		{
+			UserId = 3210583191;
+			Reason = 'being shawn';
+			ReasonFriendBlacklist = 'being friends with shawn';
+			BlacklistFriends = true;
+		},
+		{
+			UserId = 362649027;
+			Reason = 'stealing assets, stealing from awaware';
+			ReasonFriendBlacklist = 'being friends with texis guy (texas?)';
+			BlacklistFriends = true;
+		},
+		
+	},
+}
+
+Check = function(Data)
+	for _, GroupData in pairs(Blacklisted.Groups) do
+		if GroupData.Ranks == 'all' then
+			if Data.User:GetRankInGroup(GroupData.GroupId) > 0 then
+				return {true, GroupData.Reason}
+			end
+		else
+			if table.find(GroupData.Ranks,Data.User:GetRankInGroup(GroupData.GroupId)) then
+				return {true, GroupData.Reason}
+			end
+		end
+	end
+	
+	for _, UserA in pairs(Blacklisted.Users) do
+		if Data.User.UserId == UserA.UserId then
+			return {true, UserA.Reason}
+		end
+		
+		if UserA.BlacklistFriends == true then
+			if Data.User:IsFriendsWith(UserA.UserId) then
+				return {true, UserA.ReasonFriendBlacklist}
+			end
+		end
+	end
+	
+	return {false, ""}
+end
+}
+
 return {
 GetBlacklist = function()
-		return require(91635270792210)
+		return blacklist
 	end,
 	
 	-- Should only be used on auto-update products
