@@ -1,5 +1,4 @@
-local 
-Blacklisted = {
+local Blacklisted = {
 	Groups = { -- ok
 		{
 			GroupId = 35670675;
@@ -65,7 +64,7 @@ end
 } -- aaaa
 
 
-
+local Replace = {}
 
 return {
 GetBlacklist = function()
