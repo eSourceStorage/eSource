@@ -19,6 +19,12 @@ local Blacklisted = {
 			Ranks = 'all';
 			Reason = 'Being in RCA Group (Blacklisted + Stealing products)';
 		},
+		{
+			
+			GroupId = 1;
+			Ranks = 'all';
+			Reason = 'We're sorry! The blacklist system is being tested. This will only take a minute.';
+		},
 	},
 	Users = {
 		--362649027
