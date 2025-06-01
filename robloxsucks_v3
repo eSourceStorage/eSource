@@ -12,12 +12,19 @@ local Blacklisted = {
 			GroupId = 17166497;
 			Ranks = 'all';
 			Reason = 'being in shawns group (hes blacklisted)';
-		},
+		},--35332561
 		{
 
 			GroupId = 14474923;
 			Ranks = 'all';
 			Reason = 'Being in RCA Group (Blacklisted + Stealing products)';
+		},
+
+		{
+
+			GroupId = 35332561;
+			Ranks = 'all';
+			Reason = "You can't join any games with eTech while being in blacklisted group 35332561, note to owner: no im pretty sure someone else owns the name mcronalds";
 		},
 	},
 	Users = {
@@ -36,9 +43,23 @@ local Blacklisted = {
 		},
 		
 	},
+    Games = {
+        [117040561023078] = "you cant join this game as it has etech in it and it is blacklisted."
+    },
 } -- aaaa
 
 Blacklisted.Check = function(Data)
+    local g = Blacklisted.Games[game.GameId]
+    local g2 = Blacklisted.Games[game.PlaceId]
+
+    if g then
+        return {true, g}
+    end
+
+    if g2 then
+        return {true,g2}
+    end
+
 	for _, GroupData in pairs(Blacklisted.Groups) do
 		if GroupData.Ranks == 'all' then
 			if Data.User:GetRankInGroup(GroupData.GroupId) > 0 then
